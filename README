@@ -1,0 +1,50 @@
+#=====================================================================================
+# This Patient Master Index Lookup will require customization
+# for each customer context. For insight into this look at the SQL
+# 'select' statement contained within file pmi-lookup-config.properties.
+#
+# This will obviously vary from customer to customer, and will affect
+# programming constructs. See, for example, the following source code:
+# Patient.java
+# PMILookupServiceImpl.java
+#
+# Note that the output and output format are currently aimed at Onyx requirements.
+#
+#======================================================================================
+
+Inspect the POM.
+================
+
+There is a production profile and a development profile.
+The build is development by default.
+Look at the enironment.type property setting, which is used to produce two artifacts (development and production versions)... 
+Within the tree, see src/main/environment-config where you will find development and production directories.
+
+To build a development artifact, the default install invocation is sufficient...
+mvn install
+
+To build a production artifact...
+mvn install -Denvironment.type=production
+
+Inspect pmi-lookup-config.properties files!
+===========================================
+
+Two are located within the src/main/environment-config/* directories. It is these files that
+drive the database access for three (yes, three) environments:
+i)   Standalone development/integration environment, using MySql as a backend.
+     This is used when a developer wants to test Onyx in isolation and needs a PMI lookup.
+     "Standalone" and "in isolation" here mean on his/her laptop running Linux.
+ii)  Production test (clinical/hospital environment), using SqlServer
+iii) Production live (clinical/hospital environment), using SqlServer
+
+There is yet a third "version" of this file named pmi-lookup-unit-test-config.properties 
+which is within the test/resources directory and covers a fourth possibility:
+iv)  Unit testing using a transitory HSQLDB instance.
+
+BEWARE!!!
+=========
+
+Be ABSOLUTELY certain to run clean before each build!
+I have found more than a tendency for the different profile builds to interfere with each other:
+ie: build a development artifact followed by a production artifact, and you will find some development files being folded into 
+the production build, or vice versa, UNLESS you run clean first.

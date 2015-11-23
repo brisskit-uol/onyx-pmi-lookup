@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+          
+<hibernate-mapping>
+
+	<class name="org.brisskit.pmi.bean.Patient" table="UHL_PMI_QUERY_BY_ID" mutable="false">
+		
+		<!-- Note. The example from which this was copied had length=4 on Date fields -->
+		
+		<!-- HISS Internal patient identifier -->
+		<id column="internal_pat_id" name="id" type="java.lang.Integer"></id>
+		
+		<!-- Main patient identifier (S[0-9]{7}) -->
+		<property column="main_pat_id" name="sNumber" type="java.lang.String" />
+		
+		<property column="title" name="title" type="java.lang.String" />
+		<property column="last_name" name="lastName" type="java.lang.String" />
+		<property column="first_name" name="firstName" type="java.lang.String" />
+		<property column="dob" name="dateOfBirth" type="java.util.Date" />
+		
+		<property column="ethnicity" name="ethnicity" type="java.lang.String" />
+		
+		<!-- What range of values does gender have? -->
+		<property column="gender" name="gender" type="char" />
+		<property column="pat_addr1" name="addressLine1" type="java.lang.String" />
+		<property column="pat_addr2" name="addressLine2" type="java.lang.String" />
+		<property column="pat_addr3" name="addressLine3" type="java.lang.String" />
+		<property column="pat_addr4" name="addressLine4" type="java.lang.String" />
+		<property column="postcode" name="postcode" type="java.lang.String" />
+		<property column="homephone" name="homephone" type="java.lang.String" />
+		<property column="workphone" name="workphone" type="java.lang.String" />
+		
+		<!--+
+		    | Patient year of birth.  
+		    | HISS allows users to specify a year of birth only if patient’s DOB is not known.  
+		    | If it is known the YOB will be the year from the date of birth.
+		    +-->
+		<property column="year_of_birth" name="yearOfBirth" type="java.lang.String" />
+		
+		<!-- Need to confirm whether this is the required GP code -->
+		<!-- National GP code /G[0-9]{7}/ -->
+		<property column="gp_doh_code" name="gpDOHCode" type="java.lang.String" />
+		
+		<property column="nhs_number" name="nhsNumber" type="java.lang.String" />
+		
+	</class>
+
+</hibernate-mapping>

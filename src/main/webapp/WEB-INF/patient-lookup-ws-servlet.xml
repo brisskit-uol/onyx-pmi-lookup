@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			       		   http://www.springframework.org/schema/context 
+			               http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			               http://www.springframework.org/schema/oxm 
+                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <context:component-scan base-package="org.brisskit.pmi" />
+    
+    <bean id="patient" class="org.brisskit.pmi.bean.Patient" />
+	<bean id="participant" class="org.obiba.onyx.core.domain.participant.Participant" />
+                             
+	<!-- START: Section can be replaced by more complex content negotiation. -->
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+
+	<bean id="participantXmlView" class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<constructor-arg>
+			<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+				<property name="autodetectAnnotations" value="true"/>
+			</bean>
+		</constructor-arg>
+	</bean>
+	<!-- END: Section could be replaced by complex content negotiation. -->
+	
+	<!--+
+	    | START: Section for more complex content negotiation. Still to be trialed. 
+	    | NB: The above simpler configuration is suitable for a straightforward approach to content negotiation.
+	    |     The approach below could be adapted to provide competing views (XML vs Jason)
+	    +-->
+	<!--  
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="1">
+		<property name="mediaTypes">
+			<map>
+				<entry key="xml" value="application/xml" />
+			</map>
+		</property>
+
+		<property name="defaultContentType" value="application/xml" />
+		<property name="favorPathExtension" value="true" />
+
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+			</list>
+		</property>
+
+		<property name="defaultViews">
+			<list>
+				<bean id="participantXmlView" class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<constructor-arg>
+						<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+							<property name="autodetectAnnotations" value="true"/>
+						</bean>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+		<property name="ignoreAcceptHeader" value="true" />
+	</bean>
+	-->
+	<!-- END: Section for complex content negotiation. Still to be trialed. -->	
+			
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:pmi-lookup-config.properties" />      
+	</bean>
+			
+</beans>

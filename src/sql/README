@@ -1,0 +1,5 @@
+This directory contains scripts to create a test PMI database for localized testing of Onyx but not unit testing of the PMI lookup service.
+
+So, more along the lines of integration testing.
+
+The target is MySql.
