@@ -83,6 +83,14 @@
 			<resource>
 				<directory>src/main/environment-config/${environment.type}/</directory>
 			</resource>
+			<resource>
+        		<directory>${basedir}</directory>
+        		<!-- Finding the targetPath was NOT straightforward -->
+        		<targetPath>../${artifactId}-${version}</targetPath>
+        		<includes>
+          			<include>licence.doc</include>
+        		</includes>
+      		</resource>
 		</resources>
 		<testResources>
 			<testResource>
